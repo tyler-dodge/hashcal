@@ -13,8 +13,9 @@ from docopt import docopt
 import pickle
 import os
 def main(options, args):
-	print args
-	print options
+	if options.verbose:
+		print args
+		print options
 	if options.add:
 		addItem(options, args)
 	if options.show:
