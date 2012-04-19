@@ -1,3 +1,4 @@
+#!/usr/bin/python
 """Usage: hashcal.py [options] arguments
 
 Options:
@@ -13,29 +14,28 @@ from docopt import docopt
 import pickle
 import os
 def main(options, args):
-	if options.verbose:
-		print args
-		print options
-	if options.add:
-		addItem(options, args)
-	if options.show:
-		printItems()
-
+    if options.verbose:
+        print args
+        print options
+    if options.add:
+        addItem(options, args)
+    if options.show:
+        printItems()
 
 def addItem(options, args):
-	if not os.path.exists(options.file):
-		os.makedirs(options.file[:options.file.rfind("/")])
-	f = file(options.file, "wb")
-	pickle.Pickler(f).dump(args)
-	f.close()
+    if not os.path.exists(options.file):
+        os.makedirs(options.file[:options.file.rfind("/")])
+    f = file(options.file, "wb")
+    pickle.Pickler(f).dump(args)
+    f.close()
 
 
 def printItems():
-	f = file(options.file, "rb")
-	print pickle.load(f)
-	f.close()
+    f = file(options.file, "rb")
+    print pickle.load(f)
+    f.close()
 
 if __name__ == '__main__':
-	options, args = docopt(__doc__)
-	options.file = os.path.expanduser(options.file)
-	main(options, args)
+    options, args = docopt(__doc__)
+    options.file = os.path.expanduser(options.file)
+    main(options, args)
