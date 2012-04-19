@@ -26,7 +26,7 @@ def addItem(options, args):
 	if not os.path.exists(options.file):
 		os.makedirs(options.file[:options.file.rfind("/")])
 	f = file(options.file, "wb")
-	pickle.Pickler(f).dump({ 'yourMom': args[0] })
+	pickle.Pickler(f).dump(args)
 	f.close()
 
 
