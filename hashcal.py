@@ -11,25 +11,18 @@ Options:
   -f --file=<file>  file to store the calendar database in. [default: ~/.hashcal/cal.dat]
 """
 from docopt import docopt
-
+import tokenize
 import pickle
 import os
 
 
-def main(options, args):
-    has_done_something = False
-    if options.verbose:
-        print args
-        print options
-        has_done_something = True
-    if options.add:
-        add_item(options, args)
-        has_done_something = True
-    if options.show:
-        print_items()
-        has_done_something = True
-    if not has_done_something:
-        print __doc__
+def find_hashtags(args):
+    tags = []
+    for element in args:
+        for token in element.split(" "):
+            if token[0] == '#':
+                tags.append(token[1:])
+    return tags
 
 
 def add_item(options, args):
@@ -44,6 +37,23 @@ def print_items():
     f = file(options.file, "rb")
     print pickle.load(f)
     f.close()
+
+
+def main(options, args):
+    has_done_something = False
+    if options.verbose:
+        print args
+        print options
+        has_done_something = True
+        print find_hashtags(args)
+    if options.add:
+        add_item(options, args)
+        has_done_something = True
+    if options.show:
+        print_items()
+        has_done_something = True
+    if not has_done_something:
+        print __doc__
 
 
 if __name__ == '__main__':
