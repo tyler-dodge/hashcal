@@ -15,42 +15,41 @@ import tokenize
 import pickle
 import os
 
+class HashCal(object):
+    def find_hashtags(self, args):
+        tags = []
+        for element in args:
+            for token in element.split(" "):
+                if token[0] == '#':
+                    tags.append(token[1:])
+        return tags
 
-def find_hashtags(args):
-    tags = []
-    for element in args:
-        for token in element.split(" "):
-            if token[0] == '#':
-                tags.append(token[1:])
-    return tags
+    def add_item(self, options, args):
+        if not os.path.exists(options.file):
+            os.makedirs(options.file[:options.file.rfind("/")])
+        f = file(options.file, "wb")
+        pickle.Pickler(f).dump(args)
+        f.close()
 
-
-def add_item(options, args):
-    if not os.path.exists(options.file):
-        os.makedirs(options.file[:options.file.rfind("/")])
-    f = file(options.file, "wb")
-    pickle.Pickler(f).dump(args)
-    f.close()
-
-
-def print_items():
-    f = file(options.file, "rb")
-    print pickle.load(f)
-    f.close()
+    def print_items(self):
+        f = file(options.file, "rb")
+        print pickle.load(f)
+        f.close()
 
 
 def main(options, args):
     has_done_something = False
+    calendar = HashCal()
     if options.verbose:
         print args
         print options
         has_done_something = True
-        print find_hashtags(args)
+        print calendar.find_hashtags(args)
     if options.add:
-        add_item(options, args)
+        calendar.add_item(options, args)
         has_done_something = True
     if options.show:
-        print_items()
+        calendar.print_items()
         has_done_something = True
     if not has_done_something:
         print __doc__
