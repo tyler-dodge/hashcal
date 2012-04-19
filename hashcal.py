@@ -16,6 +16,11 @@ import pickle
 import os
 
 class HashCal(object):
+    def __init__(self, sourceFile=None):
+        if sourceFile is not None:
+            self.load_from_file(sourceFile)
+        else:
+            self.events = []
     def find_hashtags(self, args):
         tags = []
         for element in args:
@@ -25,21 +30,26 @@ class HashCal(object):
         return tags
 
     def add_item(self, options, args):
+        self.events.append(" ".join(args))
+
+    def load_from_file(self, file_name):
+        f = file(file_name, "rb")
+        self.events = pickle.load(f)
+        f.close()
+
+    def save_to_file(self, file_name):
         if not os.path.exists(options.file):
             os.makedirs(options.file[:options.file.rfind("/")])
-        f = file(options.file, "wb")
-        pickle.Pickler(f).dump(args)
+        f = file(file_name, "wb")
+        pickle.Pickler(f).dump(self.events)
         f.close()
-
+        
     def print_items(self):
-        f = file(options.file, "rb")
-        print pickle.load(f)
-        f.close()
-
+        print self.events
 
 def main(options, args):
     has_done_something = False
-    calendar = HashCal()
+    calendar = HashCal(options.file)
     if options.verbose:
         print args
         print options
