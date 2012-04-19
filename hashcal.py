@@ -11,18 +11,28 @@ Options:
   -f --file=<file>  file to store the calendar database in. [default: ~/.hashcal/cal.dat]
 """
 from docopt import docopt
+
 import pickle
 import os
+
+
 def main(options, args):
+    has_done_something = False
     if options.verbose:
         print args
         print options
+        has_done_something = True
     if options.add:
-        addItem(options, args)
+        add_item(options, args)
+        has_done_something = True
     if options.show:
-        printItems()
+        print_items()
+        has_done_something = True
+    if not has_done_something:
+        print __doc__
 
-def addItem(options, args):
+
+def add_item(options, args):
     if not os.path.exists(options.file):
         os.makedirs(options.file[:options.file.rfind("/")])
     f = file(options.file, "wb")
@@ -30,10 +40,11 @@ def addItem(options, args):
     f.close()
 
 
-def printItems():
+def print_items():
     f = file(options.file, "rb")
     print pickle.load(f)
     f.close()
+
 
 if __name__ == '__main__':
     options, args = docopt(__doc__)
