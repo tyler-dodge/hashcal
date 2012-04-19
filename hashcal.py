@@ -38,8 +38,8 @@ class HashCal(object):
         f.close()
 
     def save_to_file(self, file_name):
-        if not os.path.exists(options.file):
-            os.makedirs(options.file[:options.file.rfind("/")])
+        if not os.path.exists(file_name):
+            os.makedirs(options.file[:file_name.rfind("/")])
         f = file(file_name, "wb")
         pickle.Pickler(f).dump(self.events)
         f.close()
@@ -57,6 +57,7 @@ def main(options, args):
         print calendar.find_hashtags(args)
     if options.add:
         calendar.add_item(options, args)
+        calendar.save_to_file(options.file)
         has_done_something = True
     if options.show:
         calendar.print_items()
