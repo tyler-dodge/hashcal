@@ -15,20 +15,19 @@ import tokenize
 import pickle
 import os
 
-def file_check(fn, *args):
-    file_name = *args[0]
-    def wrap():
+def file_check(fn):
+    def wrap(self, file_name, *args):
         if not os.path.exists(file_name):
             os.makedirs(options.file[:file_name.rfind("/")]) #create directory
             file(file_name, "w").close() # create file and close it
-        fn(*args)
+        fn(self, file_name, *args)
     return wrap
 
 class HashCal(object):
-    def __init__(self, sourceFile=None):
+    def __init__(self, source_file=None):
         """Create HashCal. If file is given, load events from it"""
-        if sourceFile is not None:
-            self.load_from_file(sourceFile)
+        if source_file is not None:
+            self.load_from_file(source_file)
         else:
             self.events = []
     def split_hashtags(self, args):
