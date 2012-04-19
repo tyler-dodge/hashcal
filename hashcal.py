@@ -17,27 +17,38 @@ import os
 
 class HashCal(object):
     def __init__(self, sourceFile=None):
+        """Create HashCal. If file is given, load events from it"""
         if sourceFile is not None:
             self.load_from_file(sourceFile)
         else:
             self.events = []
-    def find_hashtags(self, args):
-        tags = []
+    def split_hashtags(self, args):
+        """Given a set of args, will return two items: 
+            An array of all the hashtagged args with the hashtags stripped, 
+            and an array of all the args without hashtags."""
+        tag_args = []
+        notag_args = []
         for element in args:
             for token in element.split(" "):
                 if token[0] == '#':
-                    tags.append(token[1:])
-        return tags
+                    tag_args.append(token[1:])
+                else:
+                    notag_args.append(token)
+        return tags, notag_args
 
     def add_item(self, options, args):
+        """Adds an item to event list"""
         self.events.append(" ".join(args))
 
     def load_from_file(self, file_name):
+        """Loads all the events from given file"""
         f = file(file_name, "rb")
         self.events = pickle.load(f)
         f.close()
 
     def save_to_file(self, file_name):
+        """Saves Self.events to given file, 
+        making the directories for the file if needed"""
         if not os.path.exists(file_name):
             os.makedirs(options.file[:file_name.rfind("/")])
         f = file(file_name, "wb")
@@ -45,9 +56,11 @@ class HashCal(object):
         f.close()
         
     def print_items(self):
+        """Prints all the items"""
         print self.events
 
 def main(options, args):
+    """Executes depending on given options"""
     has_done_something = False
     calendar = HashCal(options.file)
     if options.verbose:
