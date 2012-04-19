@@ -15,6 +15,15 @@ import tokenize
 import pickle
 import os
 
+def file_check(fn, *args):
+    file_name = *args[0]
+    def wrap():
+        if not os.path.exists(file_name):
+            os.makedirs(options.file[:file_name.rfind("/")]) #create directory
+            file(file_name, "w").close() # create file and close it
+        fn(*args)
+    return wrap
+
 class HashCal(object):
     def __init__(self, sourceFile=None):
         """Create HashCal. If file is given, load events from it"""
@@ -23,7 +32,7 @@ class HashCal(object):
         else:
             self.events = []
     def split_hashtags(self, args):
-        """Given a set of args, will return two items: 
+        """Given a set of args, will return a tuple of: 
             An array of all the hashtagged args with the hashtags stripped, 
             and an array of all the args without hashtags."""
         tag_args = []
@@ -34,23 +43,23 @@ class HashCal(object):
                     tag_args.append(token[1:])
                 else:
                     notag_args.append(token)
-        return tags, notag_args
+        return tag_args, notag_args
 
     def add_item(self, options, args):
         """Adds an item to event list"""
         self.events.append(" ".join(args))
 
+    @file_check
     def load_from_file(self, file_name):
         """Loads all the events from given file"""
         f = file(file_name, "rb")
         self.events = pickle.load(f)
         f.close()
 
+    @file_check
     def save_to_file(self, file_name):
         """Saves Self.events to given file, 
         making the directories for the file if needed"""
-        if not os.path.exists(file_name):
-            os.makedirs(options.file[:file_name.rfind("/")])
         f = file(file_name, "wb")
         pickle.Pickler(f).dump(self.events)
         f.close()
@@ -67,7 +76,7 @@ def main(options, args):
         print args
         print options
         has_done_something = True
-        print calendar.find_hashtags(args)
+        print calendar.split_hashtags(args)
     if options.add:
         calendar.add_item(options, args)
         calendar.save_to_file(options.file)
