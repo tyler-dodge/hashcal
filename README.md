@@ -14,4 +14,4 @@ A few examples of phrases:
 `'Get dog #tomorrow #3pm'`
 `'Do stats homework #apr23 #800'`
 `'Run a marathon #octob25 #830pm-9am'`
-`'This is event spans more than one day event #23-1'`
+`'This is event spans more than one day #23-1'`
