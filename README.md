@@ -1,4 +1,4 @@
-#hashcal
+\#hashcal
 ========
 
 A small command line interface for adding events to a calendar. Planning on having it connect to iCalendar eventually. 
