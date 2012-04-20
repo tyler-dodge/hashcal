@@ -52,7 +52,6 @@ def parse_datetime(tags):
 				day = int(day)
 				for month_num,month in enumerate(months):
 					if month.find(mo)==0:
-						print mo, month
 						year = now.year
 						# if it's next year
 						if 1+month_num < now.month:
