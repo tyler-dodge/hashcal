@@ -32,10 +32,10 @@ def parse_datetime(tags):
 			'october', 'novemember', 'december'
 		]
 
-		if tag is 'today':
+		if tag in 'today':
 			return now
 
-		if tag is 'tomorrow':
+		if tag in 'tomorrow':
 			return now + datetime.timedelta(1)
 
 		# See if it's a weekday
