@@ -32,10 +32,10 @@ def parse_datetime(tags):
 			'october', 'novemember', 'december'
 		]
 
-		if tag in 'today':
+		if 'today'.find(tag)==0:
 			return now
 
-		if tag in 'tomorrow':
+		if 'tomorrow'.find(tag)==0:
 			return now + datetime.timedelta(1)
 
 		# See if it's a weekday
@@ -85,7 +85,7 @@ def parse_datetime(tags):
 			time = int(filter(lambda c: c.isdigit(), expr))
 			if time<=24: #if it's just eg "#1pm" or "#24"
 				if pm: time += 12
-				times.append(datetime.time(time,0))
+				times.append(datetime.time(timegit,0))
 			else:
 				hour = time / 100
 				if pm: hour += 12
