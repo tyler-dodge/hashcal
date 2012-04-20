@@ -17,8 +17,10 @@ import os
 
 def file_check(fn):
     def wrap(self, file_name, *args):
+        directory = file_name[:file_name.rfind("/")]
+        if not os.path.exists(directory):
+            os.makedirs(directory) #create directory
         if not os.path.exists(file_name):
-            os.makedirs(options.file[:file_name.rfind("/")]) #create directory
             file(file_name, "w").close() # create file and close it
         fn(self, file_name, *args)
     return wrap
