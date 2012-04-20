@@ -81,14 +81,15 @@ def parse_datetime(tags):
 		for expr in duration:
 			pm = 'pm' in expr.lower()
 			time = int(filter(lambda c: c.isdigit(), expr))
+			hour = 0
 			if time<=24: #if it's just eg "#1pm" or "#24"
-				if pm: time += 12
-				times.append(datetime.time(timegit,0))
-			else:
+				hour = time
+				minute = 0
+			else: #else it's like 830 or 2308
 				hour = time / 100
-				if pm: hour += 12
 				minute = time % 100
-				times.append(datetime.time(hour,minute))
+			if pm: hour += 12
+			times.append(datetime.time(hour,minute))
 		if len(times)==1:
 			start = times[0]
 			end = datetime.time((1+start.hour)%24, start.minute)
