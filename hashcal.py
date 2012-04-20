@@ -47,7 +47,6 @@ def parse_datetime(tags):
 		# Then see if it's a month and day like apr23
 		mo = filter(lambda c: c.isalpha(), tag);
 		if len(mo)>0:
-			print tag
 			day = filter(lambda c: c.isdigit(), tag)
 			if len(day)>0:
 				day = int(day)
