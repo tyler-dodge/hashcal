@@ -16,7 +16,7 @@ Basically addresses the obnoxiousness of entering in events in any calendar prog
 
 A few examples of phrases:
 
-`'Get dog #tomorrow #3pm'`
-`'Do stats homework #apr23 #800'`
-`'Run a marathon #octob25 #830pm-9am'`
+`'Get dog #tomorrow #330pm'`
+`'Do stats homework #apr23 #8:00'`
+`'Run a marathon #octob25 #8.30pm-9am'`
 `'This is event spans more than one day #23-1'`
