@@ -41,7 +41,25 @@ def write_ics(filename, start, end, description):
 	file = open(filename, 'w')
 	file.write( ical.serialize() )
 	file.close()
-
+def write_appleScript(name,start, end, description):
+    
+    script = "".join((
+            'tell application "iCal"\n',
+            'set theCalendarNames to title of every calendar\n',
+            'set cal to item 1 of theCalendarNames\n'
+            'end tell\n',
+            'tell application "iCal"\n', 
+            'tell calendar cal\n',
+            'make new event at end with properties\n',
+            '{description:"%s",\n' % description,
+            'summary:"%s",\n' % description,
+            'start date:"%s",\n' % start,
+            'end date:"%s",\n' % end,
+            'event:true}\n',
+            'end tell\n',
+            'end tell\n'))
+    print script
+    os.system("osascript <<< '%s'" % script)
 
 class HashCal(object):
 	def __init__(self, source_file=None):
@@ -75,7 +93,7 @@ class HashCal(object):
 		print start,end
 		self.events.append( { 'start': start, 'end': end, 'text': description })
 		write_ics('test.ics', start, end, description)
-		
+		write_appleScript("",start,end,description)
 
 	@file_check
 	def load_from_file(self, file_name):

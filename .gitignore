@@ -1,4 +1,4 @@
 *.pyc
 *.dat
 *.ics
-*~
+build/
